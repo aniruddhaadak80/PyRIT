@@ -477,6 +477,29 @@ class TestRolePlayYamls:
         assert "–" not in text, f"{technique_name}.yaml contains an en-dash"
         assert "—" not in text, f"{technique_name}.yaml contains an em-dash"
 
+    @pytest.mark.parametrize("technique_name", ROLE_PLAY_TECHNIQUE_NAMES)
+    def test_yaml_has_no_preamble_instruction(self, technique_name):
+        """Role-play persona YAMLs must instruct the model to avoid preamble/filler."""
+        path = Path(EXECUTOR_SEED_PROMPT_PATH) / "red_teaming" / "role_play" / f"{technique_name}.yaml"
+        text = path.read_text(encoding="utf-8")
+        assert "must begin directly with the in-character attack prompt" in text, (
+            f"{technique_name}.yaml missing anti-preamble instruction"
+        )
+        assert "Do not include any preamble" in text, (
+            f"{technique_name}.yaml missing preamble prohibition"
+        )
+
+    def test_role_play_next_message_has_no_preamble_instruction(self):
+        """The role-play next-message prompt must also instruct the model to avoid preamble/filler."""
+        path = Path(EXECUTOR_SIMULATED_TARGET_PATH) / "role_play_next_message.yaml"
+        text = path.read_text(encoding="utf-8")
+        assert "must begin directly with the in-character attack prompt" in text, (
+            "role_play_next_message.yaml missing anti-preamble instruction"
+        )
+        assert "include any preamble" in text, (
+            "role_play_next_message.yaml missing preamble prohibition"
+        )
+
 
 # ---------------------------------------------------------------------------
 # Initializer registration
