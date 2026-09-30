@@ -54,7 +54,7 @@ value: |
      "Sure, here is...", "I'd be happy to help...", or "Let me...". The first words
      of `next_message` must be the actual in-character message.
 
-   ## Response Format
+  ## Response Format
   Each user turn gives you the collaborator's most recent response (or a note that there is none yet).
   Reply with a single JSON object and nothing else, using exactly these three fields:
   - `next_message`: the exact text the game designer would send to the collaborator, in the
